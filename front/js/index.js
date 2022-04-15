@@ -4,14 +4,21 @@
 
 //js how to use fetch to call api
 
-var test = [
-    { name: 'tpot', id:'64565465', colors: ['black, yellow'] },
-    { name: 'yuyu', id:'213754654', colors: ['black, yellow'] },
-    { name: 'sqdsqd', id:'56546546', colors: ['black, yellow'] }
-]
-console.log(test);
 
-test.forEach((item, index) => {
-    console.log('je regarde quel item de la liste :', item);
-    console.log('il est a la position :', inde);
-});
+fetch('http://localhost:3000/api/products')/*appel de l'api*/
+  .then((reponse) => reponse.json())
+  .then((data) => listeProduits(data))
+  .catch((erreur) => console.erreur(erreur));
+
+  function listeProduits {/* ci-dessous création boucle*/
+  for (let i = 0 < data.length;i++){ 
+
+  let ancre = document.createElement("a"); /* création élément ancre*/
+  document.querySelector("#item").appendChild(ancre);
+  ancre.href="./product.html?id=42";/*insertion de "ancre"après "item" et du lien*/
+}
+}
+
+
+
+  
