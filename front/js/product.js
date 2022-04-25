@@ -36,10 +36,40 @@ fetch('http://localhost:3000/api/products/' + idKanap)/*appel de l'api*/
       let DescriptifCanape = document.getElementById("description");
       DescriptifCanape.innerHTML = monCanape.description;
 
-      /*choix de la couleur
-      for (let couleurs of )
-      {
-
+      /* choix de la couleur du canapé*/
+      /* meilleure méthode pour ce type de données*/
+      for (let couleur of monCanape.colors) {
+        let choix = document.createElement("option");
+        document.querySelector("#colors").appendChild(choix);
+        choix.value = couleur;
+        choix.textContent = couleur;
+        console.log ("choose", couleur);
       }
-      console.log ("coloro", couleurs)*/
+
+      let btn = document.querySelector("#addToCart");
+      btn.onclick = function() {
+        //récupérer le canapé en question, le foutre dans le localstorage
+        let myQuantity = document.querySelector('#quantity');
+        let mavraiquantit= myQuantity.value;
+        console.log(mavraiquantit);
+
+        let monCanapCustom = {
+          quantity: mavraiquantit,
+          id: monCanape._id,
+          color: '',
+        };
+        console.log(monCanapCustom)
+        
+        //cas 1: le localStorage est vide
+        //cas 2: il n'est pas vide
+        //cas 3: il n'est pas vide, ET il contient déja un canapé du meme type
+
+        //POUR METTRE UN OBJET DANS LE LOCAL STORAGE
+        //localStorage.setItem('monPanier', JSON.stringify(monCanape));
+
+        //POUR RECUPERER UN OBJET DU LOCAL SOTRAGE
+        //console.log(JSON.parse(localStorage.getItem('monPanier')));
+        
+      }
     }
+  
