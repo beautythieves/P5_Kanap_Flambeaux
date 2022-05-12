@@ -3,19 +3,32 @@ main();
 function main() {
     let monPanier = JSON.parse(localStorage.getItem("monPanier"));
     displayCanaps(monPanier);
+    setFormValidation();
 }
 
-/*message d'alerte si le panier est vide*/
 function displayCanaps(monPanier) {
     //clear tous les articles HTML présent sur la page!!!!!!!!!!!
+    let suppressionArticles = document.getElementsByClassName("cart__item");
+    console.log(suppressionArticles);
+    //tableaux d'éléments, queryselector all section puis vider*/
+    suppressionArticles.remove;
+    /*cidessus, marche pas*/
+    /*message d'alerte si le panier est vide*/
+
     if (monPanier == null || monPanier.length == 0) {
         alert ("Votre panier est vide. Veuillez choisir un ou plusieurs article(s)")
     }
     else {
+        let quantity = 0;
+        let price = 0;
         for (let i = 0; i < monPanier.length; i++) {
             fetch('http://localhost:3000/api/products/' + monPanier[i].id)/*appel de l'api*/
             .then((reponse) => reponse.json())
-            .then((data) => {
+            .then((data) => {                
+                //J'ajoute le prix et la quantité
+                quantity += monPanier[i].quantity;
+                price += data.price;
+                console.log('quantity', quantity)
                 /*création de la balise article dans la section*/
                 let articleProduit = document.createElement("article");
                 document.querySelector("#cart__items").appendChild(articleProduit);
@@ -99,8 +112,6 @@ function displayCanaps(monPanier) {
                     updateQuantity(input.value, data.id, monPanier[i].color);      
                 }  
 
-                    /* pas compris les valeurs de updateQuantity*/
-
                 /*insertion de la balise div l.66 à l;68 cart.html*/
                 let cartItemContentSettingsDelete = document.createElement("div");
                 cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
@@ -115,8 +126,11 @@ function displayCanaps(monPanier) {
                     removeFromCart(monPanier[i].color, monPanier[i].id);      
                 }  
             });
-        }
-    }
+        }    
+        console.log(quantity, price);
+        document.querySelector("#totalQuantity").innerText = quantity;
+        document.querySelector("#totalPrice").innerText = price;    
+    }           
 }
 
 function removeFromCart(color, id) {
@@ -146,34 +160,57 @@ function updateQuantity(newQuantity, idKanap, colorKanap) {
         }
     }
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
-    //petite erreurà corriger avec Julien
-    //parcourir mon panier pour trouver le bon canapé
-    //une fois que j'ai trouvé le bon canapé, je modifie la quantité
-    //une fois que c'est fait, remettre notre panier mis a jour dans le local storage
-};
+    displayCanaps(monPanier);
+}
 
-function validate() {
+function setFormValidation() {
+    /*FORMULAIRE */
+    /*déclaration des regex*/
     let regexPrenom = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+    let regexNom =  /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+    let regexAdresse = /[0-9,'a-zA-Zéèàêëï]/g;
+    let regexVille = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+    let regexEmail =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    /* récupération des données des saisies des champs du formulaire*/
+    let form = document.querySelector(".cart__order__form").value;
+    let prenom = document.getElementById("firstName").value;
+    let nom = document.getElementById("lastName").value;
+    let adresse = document.getElementById("address").value;
+    let ville = document.getElementById("city").value;
+    let email = document.getElementById("email").value;
+    let boutonValidationCommande = document.getElementById("order");
     
-    let firstName = document.getElementById("firstName");
+    /* si au clic "commander", les champs sont remplis
+    incorrectement, message d'erreur*/
 
-    if (regexPrenom.test(firstName.value) === false) {
-        alert ("Veuillez saisir un prénom valide")
-        console.log("nom", firstName);
-    }
-};
-/* REGEX du formulaire*/
+    boutonValidationCommande.addEventListener("click", function() {
+        if (regexPrenom.test(prenom) === false){
+            alert ("Veuillez saisir un prénom");
+        }
+        if (regexNom.test(nom) == false){
+            alert ("Veuillez saisir un nom");
+        }
+        if (regexAdresse.test(adresse) == false){
+            alert ("Veuillez saisir une adresse valide");
+        }
+        if (regexEmail.test(email) == false){
+            alert ("Veuillez saisir une adresse email valide");
+        } else {
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: {firstname: ''},
+            }).then((data) => {
+                //le data doit contenir l'id de la commande
+                console.log(data)
+                //redirigera vers la page confirmation en passant l'id dans l'url
+            });
+        }
+    });
+}
 
-let regexNom =  /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
-/*regex pour le champ adresse
-pb: 1:est possible numéro (ou pas) ex: 11 rue toto /ou lieu-dit tintin
-puis,2: chaine de caratères, espaces possible, tiret etc...
-puis 3:code postal 6 chiffres obligatoire */
-
-
-/* regex pour le champ ville (identique à regex nom*/
-let regexVille = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
-/* regex pour le champ email*/
-let regexEmail =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
+/* else= bouton commabder renvoi vers la page confirmation*/
 
