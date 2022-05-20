@@ -1,16 +1,22 @@
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
+main();
 
-const idKanap = urlParams.get('idKanap');
-console.log('idKanap : ', idKanap);
+function main() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  
+  const idKanap = urlParams.get('idKanap');
+  console.log('idKanap : ', idKanap);
+  
+  
+  fetch('http://localhost:3000/api/products/' + idKanap)/*appel de l'api*/
+    .then((reponse) => reponse.json())
+    .then((data) => {
+      createProduct(data);
+    })
+    .catch((erreur) => console.log(erreur));
+  
+}
 
-
-fetch('http://localhost:3000/api/products/' + idKanap)/*appel de l'api*/
-  .then((reponse) => reponse.json())
-  .then((data) => {
-    createProduct(data);
-  })
-  .catch((erreur) => console.log(erreur));
 
 function createProduct(monCanape) {
   console.log(monCanape);
@@ -52,11 +58,8 @@ function createProduct(monCanape) {
   btn.onclick = function() {
     addToCart(monCanape);      
   }    
-}/* fermeture finale
-
-       
-      
-    
+}
+   
         /* ci dessous les conditions cas 1: si le localstorage est vide*/
 
         /*localStorage.setItem("monPanier", JSON stringify(monCanape));
@@ -66,11 +69,7 @@ function createProduct(monCanape) {
         //cas 2: il n'est pas vide
         //cas 3: il n'est pas vide, ET il contient déja un canapé du meme type
 
-        //POUR METTRE UN OBJET DANS LE LOCAL STORAGE
-        //localStorage.setItem('monPanier', JSON.stringify(monCanape));
-
-        //POUR RECUPERER UN OBJET DU LOCAL SOTRAGE
-        //console.log(JSON.parse(localStorage.getItem('monPanier')));
+      
         
      
 function addToCart(monCanape) {

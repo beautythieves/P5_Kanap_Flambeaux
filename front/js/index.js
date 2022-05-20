@@ -1,12 +1,11 @@
+main();
 
-
-
-fetch('http://localhost:3000/api/products')/*appel de l'api*/
+function main(){
+  fetch('http://localhost:3000/api/products')/*appel de l'api*/
   .then((reponse) => reponse.json())
   .then((data) => listeProduits(data))
   .catch((erreur) => console.log(erreur));
-
-
+}
 
 function listeProduits(mesCanapes) {
   //console.log('voici le param que jutilise', mesCanapes);

@@ -7,7 +7,7 @@ function main() {
 }
 
 function displayCanaps(monPanier) {
-    //clear tous les articles HTML présent sur la page!!!!!!!!!!!
+    /*efface tous les articles HTML présent sur la page*/
     let suppressionArticles = document.querySelector("#cart__items");
     suppressionArticles.innerHTML = '';
 
@@ -157,19 +157,19 @@ function setFormValidation() {
     let regexVille = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
     let regexEmail =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     /* récupération des données des saisies des champs du formulaire*/
-    let form = document.querySelector(".cart__order__form").value;
-    let prenom = document.getElementById("firstName").value;
-    let nom = document.getElementById("lastName").value;
-    let adresse = document.getElementById("address").value;
-    let ville = document.getElementById("city").value;
-    let email = document.getElementById("email").value;
+    
     let boutonValidationCommande = document.getElementById("order");
     
     /* si au clic "commander", les champs sont remplis
     incorrectement, message d'erreur*/
 
     boutonValidationCommande.addEventListener("click", function() {
-        /*console.log('on test le prenom', prenom, regexPrenom.test(prenom));
+        let prenom = document.getElementById("firstName").value;
+        let nom = document.getElementById("lastName").value;
+        let adresse = document.getElementById("address").value;
+        let ville = document.getElementById("city").value;
+        let email = document.getElementById("email").value;
+
         if (regexPrenom.test(prenom) === false){
             alert ("Veuillez saisir un prénom");
         }
@@ -183,8 +183,8 @@ function setFormValidation() {
             alert ("Veuillez saisir un nom de ville valide");
         }
         if (regexEmail.test(email) === false){
-            alert ("Veuillez saisir une adresse email valide");*/
-        //} else {
+            alert ("Veuillez saisir une adresse email valide");
+        } else {
             /*Pour les routes POST, l’objet contact envoyé au serveur 
             doit contenir les champs firstName,lastName, address, city et email. 
             Le tableau des produits envoyé au back-end doit être un array de 
@@ -203,10 +203,10 @@ function setFormValidation() {
             let order = {
                 contact : {
                   firstName : prenom,
-                  lastName : document.getElementById("lastName").value,
-                  address : document.getElementById("address").value,
-                  city : document.getElementById("city").value,
-                  email : document.getElementById("email").value
+                  lastName : nom,
+                  address : adresse,
+                  city : ville,
+                  email : email
                 },
                 products: products,
             }
@@ -218,14 +218,18 @@ function setFormValidation() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(order),
-                }).then((data) => {
+                })
+                .then((reponse) => reponse.json())
+                .then((data) => {
                 //le data doit contenir l'id de la commande
+                
+                document.location.href = './confirmation.html?orderId='+ data.orderId;
                 console.log('voici la réponse de ma requete', data)
                 //redirigera vers la page confirmation en passant l'id dans l'url
                 }).catch((err) => {
                     console.log('error', err);
                 });
-        //}
+        }
     });
 }
 
