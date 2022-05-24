@@ -1,15 +1,17 @@
 main();
 
 function main() {
-    maFonction();
+    loadId();
 }
-function maFonction() {
-    let getId = window.location.search.substring(1);
-    let IdUrl = getId.split("=");
-    let ID= IdUrl[1];
-    console.log ("id", ID);
+
+function loadId() {
+    console.log (window.location);
+    let searchParams = new URLSearchParams(window.location.search);
+    console.log(searchParams);
+    let orderIdUrl = new URL(location.href).searchParams.get("orderId");
+    console.log ("order", orderIdUrl);
     let numeroCommande = document.querySelector("#orderId");
-    orderId.textContent = ID;
+    orderId.textContent = orderIdUrl;;
 }
 
 

@@ -11,20 +11,32 @@ function displayCanaps(monPanier) {
     let suppressionArticles = document.querySelector("#cart__items");
     suppressionArticles.innerHTML = '';
 
+
     /*message d'alerte si le panier est vide*/
     if (monPanier == null || monPanier.length == 0) {
         alert ("Votre panier est vide. Veuillez choisir un ou plusieurs article(s)")
     }
     else {
+        let toto = 0;
         let quantity = 0;
         let price = 0;
         for (let i = 0; i < monPanier.length; i++) {
             fetch('http://localhost:3000/api/products/' + monPanier[i].id)/*appel de l'api*/
             .then((reponse) => reponse.json())
-            .then((data) => {                
+            .then((data) => { 
+                toto = toto + 1;              
                 //J'ajoute le prix et la quantité
                 quantity += monPanier[i].quantity;
                 price += data.price;
+                console.log('prix', toto, price, quantity);
+                if (toto === monPanier.length) {
+                    document.querySelector("#totalQuantity").innerText = quantity;
+                    document.querySelector("#totalPrice").innerText = price; 
+                }
+
+    
+                
+
                 /*création de la balise article dans la section*/
                 let articleProduit = document.createElement("article");
                 document.querySelector("#cart__items").appendChild(articleProduit);
@@ -66,7 +78,7 @@ function displayCanaps(monPanier) {
                 /*insertion de la balise p "prix", l.59 cart.html*/
                 let prixDuProduit = document.createElement("p");
                 cartItemContentDescription.appendChild(prixDuProduit);
-                prixDuProduit.innerText = data.price * monPanier[i].quantity;
+                prixDuProduit.innerText = data.price * monPanier[i].quantity + " €";
 
                 /*insertion de la balise div l.61 à l.69 cart.html*/
                 let cartItemContentSettings = document.createElement("div");
@@ -111,9 +123,8 @@ function displayCanaps(monPanier) {
                 }  
             });
         }    
-        console.log(quantity, price);
-        document.querySelector("#totalQuantity").innerText = quantity;
-        document.querySelector("#totalPrice").innerText = price;    
+        console.log('test', quantity, price);
+           
     }           
 }
 
@@ -131,6 +142,8 @@ function removeFromCart(color, id) {
     displayCanaps(monPanier);
 } 
 
+
+//cette foncton fait ceci
 function updateQuantity(newQuantity, idKanap, colorKanap) {
     console.log('mouchard1'); 
     let monPanier = JSON.parse(localStorage.getItem("monPanier")); 
@@ -141,12 +154,14 @@ function updateQuantity(newQuantity, idKanap, colorKanap) {
         if (monPanier[i].id === idKanap && monPanier[i].color == colorKanap) {
             console.log('ifr: mouchard1');  
             monPanier[i].quantity = newQuantity;
-            console.log('ifr: mouchard2');
+            console.log('ifr: mouchard2', newQuantity);
         }
     }
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
     displayCanaps(monPanier);
 }
+
+ 
 
 function setFormValidation() {
     /*FORMULAIRE */
