@@ -1,6 +1,6 @@
-main();
+principale();
 
-function main(){
+function principale(){
   /*appel de l'api*/
   fetch('http://localhost:3000/api/products')
   .then((reponse) => reponse.json())
