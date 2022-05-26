@@ -102,7 +102,7 @@ function AffichageCanapé(monPanier) {
                 input.max="100";
                 input.value= monPanier[i].quantity;
                 input.onchange = function() {
-                    updateQuantity(input.value, data._id, monPanier[i].color);      
+                    misajourQuantité(input.value, data._id, monPanier[i].color);      
                 }  
 
                 /*insertion de la balise div l.66 à l;68 cart.html*/
@@ -136,8 +136,7 @@ function supppressionDuPanier(color, id) {
     AffichageCanapé(monPanier);
 } 
 
-//cette foncton fait ceci
-function updateQuantity(newQuantity, idKanap, colorKanap) {
+function misajourQuantité(newQuantity, idKanap, colorKanap) {
     console.log('mouchard1'); 
     let monPanier = JSON.parse(localStorage.getItem("monPanier")); 
     console.log('mouchard2'); 

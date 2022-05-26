@@ -49,23 +49,12 @@ function créationproduit(monCanape) {
   /* récupération du choix du (des) canapés*/
   let btn = document.querySelector("#addToCart");
   btn.onclick = function() {
-    addToCart(monCanape);      
+    ajoutPanier(monCanape);      
   }    
 }
-       
-         
-        //cas 1: le localStorage est vide
-        //cas 2: il n'est pas vide
-        //cas 3: il n'est pas vide, ET il contient déja un canapé du meme type
-
-        //POUR METTRE UN OBJET DANS LE LOCAL STORAGE
-        //localStorage.setItem('monPanier', JSON.stringify(monCanape));
-
-        //POUR RECUPERER UN OBJET DU LOCAL SOTRAGE
-        //console.log(JSON.parse(localStorage.getItem('monPanier')));
-        
+              
      
-function addToCart(monCanape) {
+function ajoutPanier(monCanape) {
   let maQuantité = document.querySelector("#quantity");
   let maVraieQuantité = maQuantité.value;
   let maCouleur = document.querySelector("#colors");
@@ -86,14 +75,14 @@ function addToCart(monCanape) {
     monTableauDeCanapes.push(choixDuCanape);
     localStorage.setItem("monPanier", JSON.stringify(monTableauDeCanapes));
   } else { 
-    let find = false;
+    let trouver = false;
     for (let i = 0; i < monPanier.length; i++) {      
       if (monPanier[i].id === choixDuCanape.id && monPanier[i].color == choixDuCanape.color) {
         monPanier[i].quantity = monPanier[i].quantity + choixDuCanape.quantity;
-        find = true;
+        trouver = true;
       }
     }
-    if (!find) monPanier.push(choixDuCanape);
+    if (!trouver) monPanier.push(choixDuCanape);
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
   //Si NON: Je controle  si le canapé que j'essaie d'ajouter est déja présent
   //SI oui, simplement modifier la quantité déja présente dans le lpanier du localstorage
