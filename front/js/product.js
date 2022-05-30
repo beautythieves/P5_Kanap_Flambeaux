@@ -52,7 +52,12 @@ function créationproduit(monCanape) {
     ajoutPanier(monCanape);      
   }    
 }
-              
+       
+         
+     
+
+        
+        
      
 function ajoutPanier(monCanape) {
   let maQuantité = document.querySelector("#quantity");
@@ -75,14 +80,14 @@ function ajoutPanier(monCanape) {
     monTableauDeCanapes.push(choixDuCanape);
     localStorage.setItem("monPanier", JSON.stringify(monTableauDeCanapes));
   } else { 
-    let trouver = false;
+    let find = false;
     for (let i = 0; i < monPanier.length; i++) {      
       if (monPanier[i].id === choixDuCanape.id && monPanier[i].color == choixDuCanape.color) {
         monPanier[i].quantity = monPanier[i].quantity + choixDuCanape.quantity;
-        trouver = true;
+        find = true;
       }
     }
-    if (!trouver) monPanier.push(choixDuCanape);
+    if (!find) monPanier.push(choixDuCanape);
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
   //Si NON: Je controle  si le canapé que j'essaie d'ajouter est déja présent
   //SI oui, simplement modifier la quantité déja présente dans le lpanier du localstorage

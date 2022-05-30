@@ -26,9 +26,10 @@ function AffichageCanapé(monPanier) {
                 /*asynCompteur pour réguler l'itération*/
                 asynCompteur = asynCompteur + 1;              
                 //J'ajoute le prix et la quantité
-                quantity += monPanier[i].quantity;
-                price += data.price;
+                quantity += parseInt(monPanier[i].quantity);                price += data.price;
                 console.log('prix', asynCompteur, price, quantity);
+                price += parseInt(monPanier[i].price);
+                console.log(typeof monPanier[i].quantity);
                 if (asynCompteur === monPanier.length) {
                     document.querySelector("#totalQuantity").innerText = quantity;
                     document.querySelector("#totalPrice").innerText = price; 
