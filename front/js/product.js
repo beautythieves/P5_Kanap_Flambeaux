@@ -87,7 +87,7 @@ function ajoutPanier(monCanape) {
         find = true;
       }
     }
-    if (!find) monPanier.push(choixDuCanape);
+    if (find === false) monPanier.push(choixDuCanape);
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
   //Si NON: Je controle  si le canapé que j'essaie d'ajouter est déja présent
   //SI oui, simplement modifier la quantité déja présente dans le lpanier du localstorage
