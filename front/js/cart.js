@@ -28,8 +28,6 @@ function AffichageCanapé(monPanier) {
                 //J'ajoute le prix et la quantité
                 quantity += parseInt(monPanier[i].quantity);                
                 price += data.price * parseInt(monPanier[i].quantity);
-                console.log('prix', asynCompteur, price, quantity);
-                console.log(typeof monPanier[i].quantity, typeof monPanier[i]);
                 if (asynCompteur === monPanier.length) {
                     document.querySelector("#totalQuantity").innerText = quantity;
                     document.querySelector("#totalPrice").innerText = price; 
@@ -138,16 +136,10 @@ function supppressionDuPanier(color, id) {
 } 
 
 function misajourQuantité(newQuantity, idKanap, colorKanap) {
-    console.log('mouchard1'); 
     let monPanier = JSON.parse(localStorage.getItem("monPanier")); 
-    console.log('mouchard2'); 
     for (let i = 0; i < monPanier.length; i++) {  
-        console.log('bouclefor: mouchard1');
-        console.log('ifr: mouchard1'); 
         if (monPanier[i].id === idKanap && monPanier[i].color == colorKanap) {
-            console.log('ifr: mouchard1');  
             monPanier[i].quantity = newQuantity;
-            console.log('ifr: mouchard2', newQuantity);
         }
     }
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
@@ -222,7 +214,6 @@ function validationFormulaire() {
                 .then((data) => {
                 
                 document.location.href = './confirmation.html?orderId='+ data.orderId;
-                console.log('voici la réponse de ma requete', data)
                 //redirigera vers la page confirmation en passant l'id dans l'url
                 }).catch((err) => {
                     console.log('error', err);
