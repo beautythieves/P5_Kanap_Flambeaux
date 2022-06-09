@@ -29,7 +29,6 @@ function AffichageCanapé(monPanier) {
                 quantity += parseInt(monPanier[i].quantity);                
                 price += data.price * parseInt(monPanier[i].quantity);
                 console.log('prix', asynCompteur, price, quantity);
-                /*price += parseInt(monPanier[i].price);*/
                 console.log(typeof monPanier[i].quantity, typeof monPanier[i]);
                 if (asynCompteur === monPanier.length) {
                     document.querySelector("#totalQuantity").innerText = quantity;
@@ -154,7 +153,6 @@ function misajourQuantité(newQuantity, idKanap, colorKanap) {
     localStorage.setItem("monPanier", JSON.stringify(monPanier));
     AffichageCanapé(monPanier);
 }
-
 
 function validationFormulaire() {
     /*FORMULAIRE */

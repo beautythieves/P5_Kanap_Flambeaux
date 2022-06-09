@@ -3,7 +3,6 @@ principale();
 function principale() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  
   const idKanap = urlParams.get('idKanap');
     
   /*appel de l'api*/
@@ -13,9 +12,7 @@ function principale() {
       créationproduit(data);
     })
     .catch((erreur) => console.log(erreur));
-  
 }
-
 
 function créationproduit(monCanape) {
 
@@ -52,12 +49,6 @@ function créationproduit(monCanape) {
     ajoutPanier(monCanape);      
   }    
 }
-       
-         
-     
-
-        
-        
      
 function ajoutPanier(monCanape) {
   let maQuantité = document.querySelector("#quantity");
