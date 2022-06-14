@@ -14,7 +14,10 @@ function AffichageCanapé(monPanier) {
     /*message d'alerte si le panier est vide*/
     if (monPanier == null || monPanier.length == 0) {
         alert ("Votre panier est vide. Veuillez choisir un ou plusieurs article(s)")
+        document.querySelector("#totalQuantity").innerText = 0;
+        document.querySelector("#totalPrice").innerText = 0; 
     }
+
     else {
         let asynCompteur = 0;
         let quantity = 0;
